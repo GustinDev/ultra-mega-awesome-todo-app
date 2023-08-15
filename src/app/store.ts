@@ -1,17 +1,17 @@
 //Redux & Slice
 import { configureStore, Middleware } from '@reduxjs/toolkit';
-import counterReducer from './redux-toolkit/features/counter/counterSlice';
+import todoReducer from '../redux-toolkit/features/todo/todosSlice';
 //Persist
 storage;
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from './redux-toolkit/persistStorage';
+import storage from '../redux-toolkit/persistStorage';
 
 //PERSIST
 const persistConfig = {
   key: 'root',
   storage,
 };
-const persistedReducer = persistReducer(persistConfig, counterReducer);
+const persistedTodoReducer = persistReducer(persistConfig, todoReducer);
 
 //SERIALIZABLE
 
@@ -25,15 +25,13 @@ const nonSerializableMiddleware: Middleware = (store) => (next) => (action) => {
 //STORE
 export const store = configureStore({
   reducer: {
-    counterState: persistedReducer,
+    todoState: persistedTodoReducer,
   },
 
   middleware: [nonSerializableMiddleware],
 });
 
 export const persistor = persistStore(store);
-
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

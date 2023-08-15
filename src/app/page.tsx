@@ -1,33 +1,127 @@
 'use client';
-import {
-  decrement,
-  increment,
-} from './redux-toolkit/features/counter/counterSlice';
+import { useForm } from 'react-hook-form';
 import { useAppSelector, useAppDispatch } from './hooks';
+import { addTodo, deleteTodo } from '../redux-toolkit/features/todo/todosSlice';
+import { v4 as uuidv4 } from 'uuid';
+import TodoItem from '@/components/TodoItem/TodoItem';
 
 export default function Home() {
-  const counter = useAppSelector((state) => state.counterState.value);
   const dispatch = useAppDispatch();
 
+  //Todo States
+
+  const todos = useAppSelector((state) => state.todoState.todos);
+  console.log('Current todos:', todos);
+
+  //Form
+
+  const {
+    register,
+    handleSubmit: handleSubmitAdd,
+    formState: { errors },
+    reset,
+  } = useForm<Todo>();
+
+  const importanceOptions = [
+    { value: 3, label: 'No es urgente.' },
+    { value: 2, label: 'Un poco urgente.' },
+    { value: 1, label: '¡Muy urgente!' },
+  ];
+
+  const handleAddTodo = (data: Todo) => {
+    const newTodo: Todo = {
+      ...data,
+      id: uuidv4(),
+    };
+    dispatch(addTodo(newTodo));
+    reset();
+  };
+
+  const handleDeleteTodo = (id: string) => {
+    dispatch(deleteTodo(id));
+  };
+
   return (
-    <main className='flex min-h-screen flex-col items-start  '>
-      <h2 className='my-2 te'>Counter: {counter}</h2>
-      <button
-        className='p-2 border-2 border-black rounded-lg'
-        onClick={() => {
-          dispatch(increment());
-        }}
-      >
-        Increment
-      </button>
-      <button
-        className='p-2 border-2 border-black rounded-lg'
-        onClick={() => {
-          dispatch(decrement());
-        }}
-      >
-        Decrement
-      </button>
+    <main className='flex min-h-screen flex-col w-full justify-start items-center'>
+      {/* FORM*/}
+      <div className='formContainer w-4/12 h-full border-2 border-black mt-10'>
+        <form
+          onSubmit={handleSubmitAdd(handleAddTodo)}
+          className='flex flex-col w-full p-5'
+        >
+          {/* Title */}
+          <div className='w-full '>
+            <input
+              className='w-full border-2 border-black  p-2 rounded-md'
+              type='text'
+              placeholder='Título'
+              {...register('title', { required: 'El título es requerido.' })}
+            />
+            {errors.title ? (
+              <div>
+                <p className='text-red-500'>{errors.title.message}</p>{' '}
+              </div>
+            ) : (
+              <div className='h-[24px]'></div>
+            )}
+          </div>
+          {/* Description */}
+          <div className='w-full h-fit'>
+            <textarea
+              className='rounded-md w-full border-2 border-black p-2'
+              placeholder='Descripción.'
+              {...register('description', {
+                required: 'La descripción es requerida.',
+              })}
+            />
+            {errors.description ? (
+              <div>
+                <p className='text-red-500'>{errors.description.message}</p>
+              </div>
+            ) : (
+              <div className='h-[24px]'></div>
+            )}
+          </div>
+          {/* Importance */}
+          <div className='w-full'>
+            <label>¿Que tan urgente es la tarea?</label>
+            <select
+              className='w-full border-2 border-black mb-2 p-2'
+              {...register('importance', {
+                required: 'La urgencia es requerida.',
+              })}
+            >
+              {importanceOptions.map((option) => (
+                <option
+                  key={option.value}
+                  value={option.value}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            {errors.importance && (
+              <p className='text-red-500'>{errors.importance.message}</p>
+            )}
+          </div>
+          <button
+            className='w-full border-2 border-black rounded-lg p-2 text-md uppercase mt-2'
+            type='submit'
+          >
+            Añadir tarea
+          </button>
+        </form>
+      </div>
+      {/* TODOS */}
+      <div className='todosContainer flex w-8/12 flex-row gap-2 mt-4 flex-wrap justify-center'>
+        {todos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onDelete={handleDeleteTodo}
+          />
+        ))}
+      </div>
     </main>
   );
 }
