@@ -1,17 +1,29 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import { useAppSelector, useAppDispatch } from './hooks';
-import { addTodo, deleteTodo } from '../redux-toolkit/features/todo/todosSlice';
+import {
+  addTodo,
+  deleteTodo,
+  filterTodos,
+  setFilter,
+} from '../redux-toolkit/features/todo/todosSlice';
 import { v4 as uuidv4 } from 'uuid';
 import TodoItem from '@/components/TodoItem/TodoItem';
+import { useEffect } from 'react';
+import Filter from '@/components/Filter/Filter';
 
 export default function Home() {
   const dispatch = useAppDispatch();
 
   //Todo States
+  const filter = useAppSelector((state) => state.todoState.filter);
+  const allTodos = useAppSelector((state) => state.todoState.todos);
+  const filteredTodos = useAppSelector(
+    (state) => state.todoState.filteredTodos
+  );
 
-  const todos = useAppSelector((state) => state.todoState.todos);
-  console.log('Current todos:', todos);
+  console.log(filter);
+  console.log(filteredTodos);
 
   //Form
 
@@ -31,9 +43,13 @@ export default function Home() {
   const handleAddTodo = (data: Todo) => {
     const newTodo: Todo = {
       ...data,
+      importance: Number(data.importance),
       id: uuidv4(),
     };
     dispatch(addTodo(newTodo));
+    //Filter
+    dispatch(setFilter(0));
+    dispatch(filterTodos());
     reset();
   };
 
@@ -112,15 +128,25 @@ export default function Home() {
           </button>
         </form>
       </div>
+      {/* FILTER */}
+      <Filter />
       {/* TODOS */}
       <div className='todosContainer flex w-8/12 flex-row gap-2 mt-4 flex-wrap justify-center'>
-        {todos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onDelete={handleDeleteTodo}
-          />
-        ))}
+        {filter === 0
+          ? allTodos.map((todo) => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onDelete={handleDeleteTodo}
+              />
+            ))
+          : filteredTodos.map((todo) => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onDelete={handleDeleteTodo}
+              />
+            ))}
       </div>
     </main>
   );

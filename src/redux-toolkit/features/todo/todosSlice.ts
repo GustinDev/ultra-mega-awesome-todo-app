@@ -1,19 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '@/app/store';
 
-interface Todo {
-  id: string;
-  title: string;
-  description: string;
-  importance: number;
-}
+export type FilterType = 0 | 1 | 2 | 3;
 
 interface TodoState {
   todos: Todo[];
+  filter: number;
+  filteredTodos: Todo[];
 }
 
 const initialState: TodoState = {
   todos: [],
+  filter: 0,
+  filteredTodos: [],
 };
 
 const todoSlice = createSlice({
@@ -25,7 +23,11 @@ const todoSlice = createSlice({
     },
     deleteTodo: (state, action: PayloadAction<string>) => {
       state.todos = state.todos.filter((todo) => todo.id !== action.payload);
+      state.filteredTodos = state.filteredTodos.filter(
+        (todo) => todo.id !== action.payload
+      );
     },
+
     editTodo: (state, action: PayloadAction<Todo>) => {
       const index = state.todos.findIndex(
         (todo) => todo.id === action.payload.id
@@ -34,9 +36,23 @@ const todoSlice = createSlice({
         state.todos[index] = action.payload;
       }
     },
+    //Filter
+    setFilter: (state, action: PayloadAction<FilterType>) => {
+      state.filter = action.payload;
+    },
+    filterTodos: (state) => {
+      if (state.filter == 0) {
+        state.filteredTodos = state.todos;
+      } else {
+        state.filteredTodos = state.todos.filter(
+          (todo) => todo.importance == state.filter
+        );
+      }
+    },
   },
 });
 
-export const { addTodo, deleteTodo, editTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, editTodo, filterTodos, setFilter } =
+  todoSlice.actions;
 
 export default todoSlice.reducer;

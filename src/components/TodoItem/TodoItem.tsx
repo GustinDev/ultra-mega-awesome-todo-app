@@ -1,5 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { editTodo } from '@/redux-toolkit/features/todo/todosSlice';
+import {
+  editTodo,
+  filterTodos,
+  setFilter,
+} from '@/redux-toolkit/features/todo/todosSlice';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -34,6 +38,8 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
 
   const handleSaveEdit = (data: Todo) => {
     dispatch(editTodo({ ...todo, ...data }));
+    dispatch(setFilter(0));
+    dispatch(filterTodos());
     setEditing(false);
   };
 
