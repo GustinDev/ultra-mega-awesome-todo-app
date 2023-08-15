@@ -4,13 +4,15 @@ import { useAppSelector, useAppDispatch } from './hooks';
 import {
   addTodo,
   deleteTodo,
-  filterTodos,
+  filterAndSearchTodos,
   setFilter,
+  setSearchTerm,
 } from '../redux-toolkit/features/todo/todosSlice';
 import { v4 as uuidv4 } from 'uuid';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useEffect } from 'react';
 import Filter from '@/components/Filter/Filter';
+import NoTodoItem from '@/components/NoTodoItem/NoTodoItem';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -18,6 +20,7 @@ export default function Home() {
   //Todo States
   const filter = useAppSelector((state) => state.todoState.filter);
   const allTodos = useAppSelector((state) => state.todoState.todos);
+  const searchTerm = useAppSelector((state) => state.todoState.searchTerm);
   const filteredTodos = useAppSelector(
     (state) => state.todoState.filteredTodos
   );
@@ -49,7 +52,8 @@ export default function Home() {
     dispatch(addTodo(newTodo));
     //Filter
     dispatch(setFilter(0));
-    dispatch(filterTodos());
+    dispatch(setSearchTerm(''));
+    dispatch(filterAndSearchTodos());
     reset();
   };
 
@@ -131,22 +135,26 @@ export default function Home() {
       {/* FILTER */}
       <Filter />
       {/* TODOS */}
-      <div className='todosContainer flex w-8/12 flex-row gap-2 mt-4 flex-wrap justify-center'>
-        {filter === 0
-          ? allTodos.map((todo) => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                onDelete={handleDeleteTodo}
-              />
-            ))
-          : filteredTodos.map((todo) => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                onDelete={handleDeleteTodo}
-              />
-            ))}
+      <div className='todosContainer flex w-8/12 flex-row gap-2 my-4 flex-wrap justify-center'>
+        {filter === 0 && searchTerm === '' && allTodos.length > 0 ? (
+          allTodos.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onDelete={handleDeleteTodo}
+            />
+          ))
+        ) : (filter !== 0 || searchTerm !== '') && filteredTodos.length > 0 ? (
+          filteredTodos.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onDelete={handleDeleteTodo}
+            />
+          ))
+        ) : (
+          <NoTodoItem />
+        )}
       </div>
     </main>
   );
