@@ -38,7 +38,11 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
   };
 
   const handleSaveEdit = (data: Todo) => {
-    dispatch(editTodo({ ...todo, ...data }));
+    const newTodo: Todo = {
+      ...data,
+      importance: Number(data.importance),
+    };
+    dispatch(editTodo(newTodo));
     dispatch(setFilter(0));
     dispatch(setSearchTerm(''));
     dispatch(filterAndSearchTodos());
