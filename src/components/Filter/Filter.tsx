@@ -66,36 +66,36 @@ const Filter = (props: Props) => {
 
       <div className='w-full border-2 border-gray-800 rounded-lg'>
         <button
-          className={`bg-white hover:bg-gray-300 text-black py-4 h-full w-1/4 rounded-l-md border-gray-800 border-r-2 ${
-            filter === 0 ? 'active font-bold bg-customBlue4 text-white' : ''
+          className={`hover:bg-gray-300 text-black py-4 h-full w-1/4 rounded-l-md border-gray-800 border-r-2 ${
+            filter == 0 ? 'active font-bold bg-customBlue4 text-white' : ''
           }`}
           onClick={() => handleChangeFilter(0)}
         >
           Todos
         </button>
         <button
-          className={`bg-white hover:bg-gray-300 py-4 h-full w-1/4 border-gray-800 border-r-2 ${
-            filter === 1 ? 'active font-bold bg-red-500  text-white' : ''
+          className={`hover:bg-gray-300 py-4 h-full w-1/4 border-gray-800 border-r-2 ${
+            filter == 1 ? 'active font-bold bg-red-500  text-white' : ''
           }`}
           onClick={() => handleChangeFilter(1)}
         >
-          ¡Muy urgentes!
+          ¡Muy urgente!
         </button>
         <button
-          className={`bg-white hover:bg-gray-300 py-4 h-full w-1/4 border-gray-800 border-r-2 ${
-            filter === 2 ? 'active font-bold bg-orange-500 text-white' : ''
+          className={`hover:bg-gray-300 py-4 h-full w-1/4 border-gray-800 border-r-2 ${
+            filter == 2 ? 'active font-bold bg-orange-500 text-white' : ''
           }`}
           onClick={() => handleChangeFilter(2)}
         >
-          Un poco urgentes
+          Poco urgente
         </button>
         <button
-          className={`bg-white hover:bg-gray-300 py-4 h-full w-1/4  rounded-r-md ${
+          className={`hover:bg-gray-300 py-4 h-full w-1/4  rounded-r-md ${
             filter === 3 ? 'active font-bold bg-green-600  text-white' : ''
           }`}
           onClick={() => handleChangeFilter(3)}
         >
-          No urgentes
+          No urgente
         </button>
       </div>
     </div>
