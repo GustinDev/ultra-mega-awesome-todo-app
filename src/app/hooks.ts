@@ -4,6 +4,7 @@ import type { TypedUseSelectorHook } from 'react-redux';
 //Types
 import type { RootState, AppDispatch } from './store';
 
+//Redux Toolkit Hooks - Formatted for TS.
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 
 //Dispatch

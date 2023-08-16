@@ -1,12 +1,5 @@
 import type { Config } from 'tailwindcss';
 
-//#bde0fe
-//#00a6fb
-//#2563EB
-//#1E40AF
-//#00205b
-//#001233
-
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',

@@ -1,3 +1,4 @@
+//Redux
 import { useAppDispatch } from '@/app/hooks';
 import {
   editTodo,
@@ -5,14 +6,20 @@ import {
   setFilter,
   setSearchTerm,
 } from '@/redux-toolkit/features/todo/todosSlice';
+//Packages & Types
 import Todo, { TodoItemProps } from '@/types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+//Todo Item Card - Component
 const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
+  // Initialize Redux dispatch
   const dispatch = useAppDispatch();
+
+  // State for Editing. False: Shows Data | True: Shows Form to Edit
   const [editing, setEditing] = useState(false);
 
+  // Initialize edit form handling with react-hook-form
   const {
     register,
     handleSubmit,
@@ -22,28 +29,33 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
     defaultValues: todo,
   });
 
+  // Define importance options for dropdown (urgency)
   const importanceOptions = [
     { value: 3, label: 'No es urgente.' },
     { value: 2, label: 'Un poco urgente.' },
     { value: 1, label: '¡Muy urgente!' },
   ];
 
+  // Function to handle edit State
   const handleEditTodo = () => {
     setEditing(true);
   };
 
+  // Function to save edit changes
   const handleSaveEdit = (data: Todo) => {
     const newTodo: Todo = {
       ...data,
       importance: Number(data.importance),
     };
-    dispatch(editTodo(newTodo));
+    dispatch(editTodo(newTodo)); //Dispatch edited todo.
+    //Reset filtes, and states.
     dispatch(setFilter(0));
     dispatch(setSearchTerm(''));
     dispatch(filterAndSearchTodos());
     setEditing(false);
   };
 
+  // Function to cancel edit changes
   const handleCancelEdit = () => {
     setEditing(false);
     reset(todo);
@@ -52,7 +64,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
   return (
     <div className='card w-80 h-80 border-2 border-customBlue4 p-5 bg-white rounded-lg'>
       {editing ? (
-        // Form
+        // Edit Form
         <form
           onSubmit={handleSubmit(handleSaveEdit)}
           className='w-full h-full flex flex-col justify-between'
@@ -109,13 +121,13 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
           </div>
           <div className='w-full gap-1 flex justify-between '>
             <button
-              className='border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
+              className='bg-red-100 border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
               onClick={handleCancelEdit}
             >
               Cancelar
             </button>
             <button
-              className='border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
+              className='bg-blue-100 border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
               type='submit'
             >
               Guardar
@@ -123,7 +135,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
           </div>
         </form>
       ) : (
-        // Card
+        // Todo Item Card
         <div className='flex flex-col justify-between h-full'>
           <div>
             <div className='w-full flex justify-end '>
@@ -152,13 +164,13 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
           </div>
           <div className='w-full gap-1 flex justify-between '>
             <button
-              className='border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
+              className='bg-red-100 border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
               onClick={() => onDelete(todo.id)}
             >
               Borrar
             </button>
             <button
-              className='border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
+              className='bg-blue-100 border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
               onClick={handleEditTodo}
             >
               Editar

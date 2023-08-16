@@ -1,36 +1,42 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks'; // Import Redux Hooks (TS)
 import { FilterType } from '@/types';
 import { useState } from 'react';
 import {
   filterAndSearchTodos,
   setFilter,
   setSearchTerm,
-} from '@/redux-toolkit/features/todo/todosSlice';
+} from '@/redux-toolkit/features/todo/todosSlice'; // Import Redux actions
 
 type Props = {};
 
+//Filter Component
 const Filter = (props: Props) => {
+  // Initialize Redux Dispatch
   const dispatch = useAppDispatch();
+
+  // Retrieve global states from Redux
   const filter = useAppSelector((state) => state.todoState.filter);
-  const searchTerm = useAppSelector((state) => state.todoState.searchTerm);
+
+  // State for Search Input
   const [searchInput, setSearchInput] = useState('');
 
-  console.log(searchTerm);
-
+  // Function to handle changing the filter
   const handleChangeFilter = (newFilter: FilterType) => {
-    //Change Filter
+    //Set Filter
     dispatch(setFilter(newFilter));
-    //Aply Filter
+    //Apply Filter
     dispatch(filterAndSearchTodos());
   };
 
+  // Function to handle search button click
   const handleSearchButtonClick = () => {
-    // Update Search Term
+    // Set Search Term
     dispatch(setSearchTerm(searchInput));
     // Apply Filter and Search
     dispatch(filterAndSearchTodos());
   };
 
+  // Function to handle reset button
   const handleResetButton = () => {
     dispatch(setFilter(0));
     dispatch(setSearchTerm(''));
@@ -42,6 +48,7 @@ const Filter = (props: Props) => {
       <h1 className='text-center mb-2 font-bold uppercase text-xl text-customBlue5'>
         filtros
       </h1>
+      {/* Search Container */}
       <div className='searchContainer py-2 md:py-0 w-full flex flex-col md:flex-row gap-2 h-full'>
         <input
           className='w-full md:w-7/12 p-2 border-2 border-customBlue4 rounded-md'
@@ -50,6 +57,7 @@ const Filter = (props: Props) => {
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
+        {/* Buttons for search and reset */}
         <div className='flex gap-1 w-full md:w-5/12 justify-center h-full'>
           <button
             className='py-2 px-4  rounded-md border-2  border-customBlue4 bg-customBlue3 hover:bg-customBlue4 font-bold text-white w-2/5'
@@ -65,7 +73,7 @@ const Filter = (props: Props) => {
           </button>
         </div>
       </div>
-
+      {/* Filter buttons */}
       <div className='w-full h-full border-2 border-gray-800 rounded-lg flex justify-center items-center'>
         <button
           className={`hover:bg-gray-300 text-black py-7 md:py-4 h-full w-1/4 rounded-l-md border-gray-800 border-r-2 ${

@@ -19,10 +19,12 @@ import Filter from '@/components/Filter/Filter';
 import bgHero from '../../public/bg-hero4.svg';
 import Todo from '@/types';
 
+// Main component
 export default function Home() {
+  // Initialize Redux dispatch
   const dispatch = useAppDispatch();
 
-  //Todo Global States (Redux)
+  //Retrieve global states from Redux
   const filter = useAppSelector((state) => state.todoState.filter);
   const allTodos = useAppSelector((state) => state.todoState.todos);
   const searchTerm = useAppSelector((state) => state.todoState.searchTerm);
@@ -30,7 +32,7 @@ export default function Home() {
     (state) => state.todoState.filteredTodos
   );
 
-  //Form
+  // Initialize main form handling with react-hook-form
   const {
     register,
     handleSubmit: handleSubmitAdd,
@@ -38,28 +40,31 @@ export default function Home() {
     reset,
   } = useForm<Todo>();
 
+  // Define importance options for dropdown (urgency)
   const importanceOptions = [
     { value: 3, label: 'No es urgente.' },
     { value: 2, label: 'Un poco urgente.' },
     { value: 1, label: '¡Muy urgente!' },
   ];
 
+  // Function to handle adding a new todo
   const handleAddTodo = (data: Todo) => {
     const newTodo: Todo = {
       ...data,
       importance: Number(data.importance),
       id: uuidv4(),
     };
-    dispatch(addTodo(newTodo));
-    //Filter
+    dispatch(addTodo(newTodo)); // Dispatch - Create a new Todo
+    // Reset filters, form and search terms
     dispatch(setFilter(0));
     dispatch(setSearchTerm(''));
     dispatch(filterAndSearchTodos());
     reset();
   };
 
+  // Function to handle deleting a todo
   const handleDeleteTodo = (id: string) => {
-    dispatch(deleteTodo(id));
+    dispatch(deleteTodo(id)); // Dispatch - Delete a Todo
   };
 
   return (

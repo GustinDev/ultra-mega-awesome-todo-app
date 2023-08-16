@@ -17,7 +17,7 @@ export interface TodoState {
   filteredTodos: Todo[];
 }
 
-//Props Item
+//Props Items
 export interface TodoItemProps {
   todo: Todo;
   onDelete: (id: string) => void;

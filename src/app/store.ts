@@ -21,7 +21,7 @@ const nonSerializableMiddleware: Middleware = (store) => (next) => (action) => {
   return next(action);
 };
 
-//Store
+//Store & Reducers Slice
 export const store = configureStore({
   reducer: {
     todoState: persistedTodoReducer,

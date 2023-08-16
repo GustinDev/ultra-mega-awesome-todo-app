@@ -1,6 +1,7 @@
 'use client';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
+//Persistency Fix
 const createNoopStorage = () => {
   return {
     getItem(_key: any) {
@@ -14,7 +15,6 @@ const createNoopStorage = () => {
     },
   };
 };
-
 const storage =
   typeof window !== 'undefined'
     ? createWebStorage('local')
