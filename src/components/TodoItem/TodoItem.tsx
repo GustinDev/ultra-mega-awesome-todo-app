@@ -69,7 +69,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
           onSubmit={handleSubmit(handleSaveEdit)}
           className='w-full h-full flex flex-col justify-between'
         >
-          <div className='w-full'>
+          <div className='w-full h-full'>
             <div className='w-full flex justify-end '>
               <select
                 className='px-2 py-[10px] border-2 border-black rounded-xl mb-3'
@@ -136,9 +136,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
         </form>
       ) : (
         // Todo Item Card
-        <div className='flex flex-col justify-between h-full'>
-          <div>
-            <div className='w-full flex justify-end '>
+        <div className='flex flex-col justify-between h-full w-full'>
+          <div className='h-full w-full'>
+            <div className='w-full flex justify-end h-fit'>
               <h1
                 className={`p-2 border-2  rounded-xl ${
                   todo.importance == 1
@@ -159,8 +159,10 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
                   : ''}
               </h1>
             </div>
-            <h1 className='font-bold text-xl overflow-auto'>{todo.title}</h1>
-            <h1 className='text-lg overflow-auto'>{todo.description}</h1>
+            <h1 className='font-bold text-xl overflow-auto  h-16'>
+              {todo.title}
+            </h1>
+            <h1 className='text-lg overflow-auto  h-28'>{todo.description}</h1>
           </div>
           <div className='w-full gap-1 flex justify-between '>
             <button
