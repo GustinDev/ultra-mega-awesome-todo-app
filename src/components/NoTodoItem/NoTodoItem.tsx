@@ -1,6 +1,6 @@
 const NoTodoItem = () => {
   return (
-    <div className='card xl:w-8/12 2xl:w-6/12 h-40 border-2 border-customBlue4 bg-white rounded-lg bg-whi p-5 flex flex-col justify-between items-center'>
+    <div className='card w-full   xl:w-8/12 2xl:w-6/12 h-fit border-2 border-customBlue4 bg-white rounded-lg bg-whi p-5 flex flex-col justify-between items-center'>
       <h1 className='text-2xl font-bold'>
         ¡Oh no! No tienes tareas agregadas.
       </h1>

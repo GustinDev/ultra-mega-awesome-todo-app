@@ -38,35 +38,37 @@ const Filter = (props: Props) => {
   };
 
   return (
-    <div className='filterContainer w-full mx-auto  flex flex-col justify-center items-center mt-4 gap-2 bg-white rounded-lg p-5 border-2 border-customBlue4'>
+    <div className='filterContainer w-full mx-auto  flex flex-col justify-center items-center mt-4 gap-2 bg-white rounded-lg p-5 border-2 border-customBlue4 h-full'>
       <h1 className='text-center mb-2 font-bold uppercase text-xl text-customBlue5'>
         filtros
       </h1>
-      <div className='searchContainer py-4 md:py-0 w-full flex gap-2'>
+      <div className='searchContainer py-2 md:py-0 w-full flex flex-col md:flex-row gap-2 h-full'>
         <input
-          className='w-full p-2 border-2 border-customBlue4 rounded-md'
+          className='w-full md:w-7/12 p-2 border-2 border-customBlue4 rounded-md'
           type='text'
           placeholder='Buscar tarea por título...'
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
-        <button
-          className='py-2 px-4 mt-3 md:mt-0  rounded-md border-2  border-customBlue4 bg-customBlue3 hover:bg-customBlue4 font-bold text-white'
-          onClick={handleSearchButtonClick}
-        >
-          Buscar
-        </button>
-        <button
-          className=' py-2 px-4 mt-3 md:mt-0 rounded-md border-2 border-customBlue4 bg-customBlue3 hover:bg-customBlue4 font-bold text-white w-60'
-          onClick={handleResetButton}
-        >
-          Borrar Filtros
-        </button>
+        <div className='flex gap-1 w-full md:w-5/12 justify-center h-full'>
+          <button
+            className='py-2 px-4  rounded-md border-2  border-customBlue4 bg-customBlue3 hover:bg-customBlue4 font-bold text-white w-2/5'
+            onClick={handleSearchButtonClick}
+          >
+            Buscar
+          </button>
+          <button
+            className=' px-4   rounded-md border-2 border-customBlue4 bg-customBlue3 hover:bg-customBlue4 font-bold text-white w-3/5'
+            onClick={handleResetButton}
+          >
+            Borrar Filtros
+          </button>
+        </div>
       </div>
 
-      <div className='w-full border-2 border-gray-800 rounded-lg'>
+      <div className='w-full h-full border-2 border-gray-800 rounded-lg flex justify-center items-center'>
         <button
-          className={`hover:bg-gray-300 text-black py-4 h-full w-1/4 rounded-l-md border-gray-800 border-r-2 ${
+          className={`hover:bg-gray-300 text-black py-7 md:py-4 h-full w-1/4 rounded-l-md border-gray-800 border-r-2 ${
             filter == 0 ? 'active font-bold bg-customBlue4 text-white' : ''
           }`}
           onClick={() => handleChangeFilter(0)}

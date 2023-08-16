@@ -69,7 +69,7 @@ export default function Home() {
     >
       {/* FORM AND FILTER */}
       <div className='heroContainer w-full flex justify-center items-center bg-cover'>
-        <div className='formAndFilterContainer xl:w-6/12 2xl:w-4/12 h-full my-10 bg.'>
+        <div className='formAndFilterContainer w-10/12 md:w-10/12  xl:w-6/12 2xl:w-4/12 h-full my-10 bg.'>
           {/* FORM*/}
           <div className='formContainer border-2 border-customBlue4 bg-white rounded-lg'>
             <form
