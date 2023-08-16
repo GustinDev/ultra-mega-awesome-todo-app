@@ -77,7 +77,7 @@ export default function Home() {
               className='flex flex-col w-full p-5'
             >
               <h1 className='text-center mb-5 font-bold uppercase text-xl text-customBlue5'>
-                ultra mega awesome todo app
+                awesome todo app
               </h1>
               {/* Title */}
               <div className='w-full '>
