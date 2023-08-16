@@ -1,14 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import Todo, { FilterType, TodoState } from '@/types';
 
-export type FilterType = 0 | 1 | 2 | 3;
-
-interface TodoState {
-  todos: Todo[];
-  filter: number;
-  searchTerm: string;
-  filteredTodos: Todo[];
-}
-
+//States
 const initialState: TodoState = {
   todos: [],
   filter: 0,
@@ -16,6 +9,7 @@ const initialState: TodoState = {
   filteredTodos: [],
 };
 
+//Slice
 const todoSlice = createSlice({
   name: 'todos',
   initialState,
@@ -38,7 +32,7 @@ const todoSlice = createSlice({
         state.todos[index] = action.payload;
       }
     },
-    //Data to Filter
+    //Variables to Filter
     setFilter: (state, action: PayloadAction<FilterType>) => {
       state.filter = action.payload;
     },
@@ -64,7 +58,6 @@ const todoSlice = createSlice({
         todo.title.toLowerCase().includes(searchTerm)
       );
     },
-    //Searchbar:
   },
 });
 

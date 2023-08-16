@@ -1,21 +1,16 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch } from '@/app/hooks';
 import {
   editTodo,
   filterAndSearchTodos,
   setFilter,
   setSearchTerm,
 } from '@/redux-toolkit/features/todo/todosSlice';
+import Todo, { TodoItemProps } from '@/types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-interface TodoItemProps {
-  todo: Todo;
-  onDelete: (id: string) => void;
-}
-
 const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
   const dispatch = useAppDispatch();
-
   const [editing, setEditing] = useState(false);
 
   const {

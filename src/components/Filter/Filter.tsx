@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { FilterType } from '@/types';
 import { useState } from 'react';
 import {
-  FilterType,
   filterAndSearchTodos,
   setFilter,
   setSearchTerm,

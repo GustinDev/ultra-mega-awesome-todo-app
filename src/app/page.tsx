@@ -1,5 +1,8 @@
 'use client';
+//Packages
 import { useForm } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
+//Redux
 import { useAppSelector, useAppDispatch } from './hooks';
 import {
   addTodo,
@@ -8,12 +11,13 @@ import {
   setFilter,
   setSearchTerm,
 } from '../redux-toolkit/features/todo/todosSlice';
-import { v4 as uuidv4 } from 'uuid';
-import TodoItem from '@/components/TodoItem/TodoItem';
-import { useEffect } from 'react';
-import Filter from '@/components/Filter/Filter';
+//Components
 import NoTodoItem from '@/components/NoTodoItem/NoTodoItem';
+import TodoItem from '@/components/TodoItem/TodoItem';
+import Filter from '@/components/Filter/Filter';
+//Images & Types
 import bgHero from '../../public/bg-hero4.svg';
+import Todo from '@/types';
 
 export default function Home() {
   const dispatch = useAppDispatch();
