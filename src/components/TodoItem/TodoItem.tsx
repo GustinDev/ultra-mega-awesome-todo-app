@@ -55,7 +55,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
   };
 
   return (
-    <div className='card w-80 h-80 border-2 border-black p-5 '>
+    <div className='card w-80 h-80 border-2 border-customBlue4 p-5 bg-white rounded-lg'>
       {editing ? (
         // Form
         <form
@@ -85,7 +85,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
               <p className='text-red-500'>{errors.importance.message}</p>
             )}
             <input
-              className='w-full font-bold text-xl p-2 border-2 border-black rounded-lg'
+              className='w-full font-bold text-xl p-2 border-2 border-customBlue4 rounded-lg'
               type='text'
               defaultValue={todo.title}
               {...register('title', { required: 'El título es requerido.' })}
@@ -98,7 +98,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
               <div className='h-[24px]'></div>
             )}
             <textarea
-              className='w-full  text-lg p-2 border-2 border-black rounded-lg'
+              className='w-full  text-lg p-2 border-2 border-customBlue4 rounded-lg'
               defaultValue={todo.description}
               {...register('description', {
                 required: 'La descripción es requerida.',
@@ -114,16 +114,16 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
           </div>
           <div className='w-full gap-1 flex justify-between '>
             <button
-              className='border-2 border-black w-2/3'
-              type='submit'
-            >
-              Guardar
-            </button>
-            <button
-              className='border-2 border-black w-2/3'
+              className='border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
               onClick={handleCancelEdit}
             >
               Cancelar
+            </button>
+            <button
+              className='border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
+              type='submit'
+            >
+              Guardar
             </button>
           </div>
         </form>
@@ -132,7 +132,17 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
         <div className='flex flex-col justify-between h-full'>
           <div>
             <div className='w-full flex justify-end '>
-              <h1 className='p-2 border-2 border-black rounded-xl'>
+              <h1
+                className={`p-2 border-2  rounded-xl ${
+                  todo.importance == 1
+                    ? 'bg-red-500 border-red-900 text-white'
+                    : todo.importance == 2
+                    ? 'bg-orange-500 border-orange-900 text-white'
+                    : todo.importance == 3
+                    ? 'bg-green-600 border-green-900 text-white'
+                    : ''
+                }`}
+              >
                 {todo.importance == 1
                   ? ' ¡Muy urgente!'
                   : todo.importance == 2
@@ -147,16 +157,16 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
           </div>
           <div className='w-full gap-1 flex justify-between '>
             <button
-              className='border-2 border-black w-2/3'
-              onClick={handleEditTodo}
-            >
-              Editar
-            </button>
-            <button
-              className='border-2 border-black w-2/3'
+              className='border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
               onClick={() => onDelete(todo.id)}
             >
               Borrar
+            </button>
+            <button
+              className='border-2 border-black w-2/3 rounded-lg hover:bg-gray-200'
+              onClick={handleEditTodo}
+            >
+              Editar
             </button>
           </div>
         </div>

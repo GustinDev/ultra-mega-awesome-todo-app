@@ -13,11 +13,12 @@ import TodoItem from '@/components/TodoItem/TodoItem';
 import { useEffect } from 'react';
 import Filter from '@/components/Filter/Filter';
 import NoTodoItem from '@/components/NoTodoItem/NoTodoItem';
+import bgHero from '../../public/bg-hero4.svg';
 
 export default function Home() {
   const dispatch = useAppDispatch();
 
-  //Todo States
+  //Todo Global States (Redux)
   const filter = useAppSelector((state) => state.todoState.filter);
   const allTodos = useAppSelector((state) => state.todoState.todos);
   const searchTerm = useAppSelector((state) => state.todoState.searchTerm);
@@ -25,11 +26,7 @@ export default function Home() {
     (state) => state.todoState.filteredTodos
   );
 
-  console.log(filter);
-  console.log(filteredTodos);
-
   //Form
-
   const {
     register,
     handleSubmit: handleSubmitAdd,
@@ -62,80 +59,97 @@ export default function Home() {
   };
 
   return (
-    <main className='flex min-h-screen flex-col w-full justify-start items-center'>
-      {/* FORM*/}
-      <div className='formContainer w-4/12 h-full border-2 border-black mt-10'>
-        <form
-          onSubmit={handleSubmitAdd(handleAddTodo)}
-          className='flex flex-col w-full p-5'
-        >
-          {/* Title */}
-          <div className='w-full '>
-            <input
-              className='w-full border-2 border-black  p-2 rounded-md'
-              type='text'
-              placeholder='Título'
-              {...register('title', { required: 'El título es requerido.' })}
-            />
-            {errors.title ? (
-              <div>
-                <p className='text-red-500'>{errors.title.message}</p>{' '}
-              </div>
-            ) : (
-              <div className='h-[24px]'></div>
-            )}
-          </div>
-          {/* Description */}
-          <div className='w-full h-fit'>
-            <textarea
-              className='rounded-md w-full border-2 border-black p-2'
-              placeholder='Descripción.'
-              {...register('description', {
-                required: 'La descripción es requerida.',
-              })}
-            />
-            {errors.description ? (
-              <div>
-                <p className='text-red-500'>{errors.description.message}</p>
-              </div>
-            ) : (
-              <div className='h-[24px]'></div>
-            )}
-          </div>
-          {/* Importance */}
-          <div className='w-full'>
-            <label>¿Que tan urgente es la tarea?</label>
-            <select
-              className='w-full border-2 border-black mb-2 p-2'
-              {...register('importance', {
-                required: 'La urgencia es requerida.',
-              })}
+    <main
+      className='flex min-h-screen flex-col w-full justify-start items-center bg-cover'
+      style={{
+        backgroundImage: `url(${bgHero.src})`,
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* FORM AND FILTER */}
+      <div className='heroContainer w-full flex justify-center items-center bg-cover'>
+        <div className='formAndFilterContainer xl:w-6/12 2xl:w-4/12 h-full my-10 bg.'>
+          {/* FORM*/}
+          <div className='formContainer border-2 border-customBlue4 bg-white rounded-lg'>
+            <form
+              onSubmit={handleSubmitAdd(handleAddTodo)}
+              className='flex flex-col w-full p-5'
             >
-              {importanceOptions.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
+              <h1 className='text-center mb-5 font-bold uppercase text-xl text-customBlue5'>
+                ultra mega awesome todo app
+              </h1>
+              {/* Title */}
+              <div className='w-full '>
+                <input
+                  className='w-full border-2 border-customBlue4  p-2 rounded-md'
+                  type='text'
+                  placeholder='Título'
+                  {...register('title', {
+                    required: 'El título es requerido.',
+                  })}
+                />
+                {errors.title ? (
+                  <div>
+                    <p className='text-red-500'>{errors.title.message}</p>{' '}
+                  </div>
+                ) : (
+                  <div className='h-[24px]'></div>
+                )}
+              </div>
+              {/* Description */}
+              <div className='w-full h-fit'>
+                <textarea
+                  className='rounded-md w-full border-2 border-customBlue4 p-2'
+                  placeholder='Descripción.'
+                  {...register('description', {
+                    required: 'La descripción es requerida.',
+                  })}
+                />
+                {errors.description ? (
+                  <div>
+                    <p className='text-red-500'>{errors.description.message}</p>
+                  </div>
+                ) : (
+                  <div className='h-[24px]'></div>
+                )}
+              </div>
+              {/* Importance */}
+              <div className='w-full'>
+                <label>¿Que tan urgente es la tarea?</label>
+                <select
+                  className='w-full border-2 border-customBlue4 mb-2 p-2'
+                  {...register('importance', {
+                    required: 'La urgencia es requerida.',
+                  })}
                 >
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            {errors.importance && (
-              <p className='text-red-500'>{errors.importance.message}</p>
-            )}
+                  {importanceOptions.map((option) => (
+                    <option
+                      key={option.value}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                {errors.importance && (
+                  <p className='text-red-500'>{errors.importance.message}</p>
+                )}
+              </div>
+              <button
+                className='w-full border-2 rounded-lg p-2 text-md uppercase mt-2  border-customBlue4 bg-customBlue3 hover:bg-customBlue4 font-bold text-white'
+                type='submit'
+              >
+                Añadir tarea
+              </button>
+            </form>
           </div>
-          <button
-            className='w-full border-2 border-black rounded-lg p-2 text-md uppercase mt-2'
-            type='submit'
-          >
-            Añadir tarea
-          </button>
-        </form>
+          {/* FILTER */}
+          <Filter />
+        </div>
       </div>
-      {/* FILTER */}
-      <Filter />
       {/* TODOS */}
-      <div className='todosContainer flex w-8/12 flex-row gap-2 my-4 flex-wrap justify-center'>
+      <div className='todosContainer flex w-9/12 flex-row gap-2 my-4 flex-wrap justify-center '>
         {filter === 0 && searchTerm === '' && allTodos.length > 0 ? (
           allTodos.map((todo) => (
             <TodoItem
